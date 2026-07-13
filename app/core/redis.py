@@ -1,6 +1,9 @@
+import os
 import redis
 
-redis_client = redis.Redis(host='redis://red-d9ai54ok1i2s73c5pev0:6379', port=6379, decode_responses=True)
+
+redis_url = os.getenv('REDIS_URL', 'redis://localhost:6379')
+redis_client = redis.from_url(redis_url)
 
 EXPIRATION_TIME = 300
 
