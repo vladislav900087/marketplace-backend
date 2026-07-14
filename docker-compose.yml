@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  celery-worker:
+    build: .
+    command: celery -A app.core.celery_app worker --loglevel=info
+    environment:
+      - REDIS_URL=rediss://red-d9ai54ok1i2s73c5pev0:CSrmyynXdw0i46BSHexko4q3XPgf1e66@oregon-keyvalue.render.com:6379
+      - DATABASE_URL=postgresql://market_records_user:XC3AV6iwjymEBJ4K61qPboOIjuuDiheu@dpg-d9ai24ok1i2s73c5jck0-a.oregon-postgres.render.com/market_records
+      - SECRET_KEY=2ed8449e65397469cb35ce36380eaec105c82c5563d0f79984668922f94a482b
+    restart: always
