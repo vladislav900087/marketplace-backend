@@ -1,10 +1,12 @@
 from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
+import os
 
 class PDFService:
     def generate_invoice(self, order):
 
-        filename = f'storage/invoices/invoice_{order}.pdf'
+        os.makedirs("storage/invoices", exist_ok=True)
+        filename = f'storage/invoices/invoice_{order.id}.pdf'
 
         pdf = SimpleDocTemplate(filename)
 

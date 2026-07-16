@@ -14,6 +14,9 @@ from datetime import datetime, timezone
 from app.tasks.email_tasks import send_order_confirmation_email
 
 from app.tasks.result_tasks import generate_pdf_invoice
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class OrderService:
@@ -59,8 +62,10 @@ class OrderService:
         # clear the user's cart when the order is created yet
         if len(cart.products) != 0:
             self.cart_service.clear_cart(db=db, username=str(current_user.username))
-
-        generate_pdf_invoice.delay(user_id=current_user.id, order_id=user_order.id)
+        try:
+            generate_pdf_invoice.delay(user_id=current_user.id, order_id=user_order.id)
+        except Exception as e:
+            logger.exception(f'Could not enqueue invoice generation: {e}')
 
         return user_order
 
@@ -109,8 +114,10 @@ class OrderService:
         elif action == 'cancel':
             self.process_order(db=db, username=str(current_user.username), order_id=current_order.id, is_paid=False, is_cancelled=True)
 
-
-        send_order_confirmation_email.delay(to=current_user.email)
+        try:
+            send_order_confirmation_email.delay(to=current_user.email)
+        except Exception as e:
+            logger.exception(f'could enqueue confirmation email: {e}')
         return current_order
 
     def get_user_orders(self, db, username: str):

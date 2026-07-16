@@ -19,10 +19,8 @@ order_service = OrderService()
 
 @order_router.post('/add', response_model=OrderOut)
 async def create_order(db: Session = Depends(get_db), current_user: User = Depends(get_current_user), _: None = Depends(rate_limit)):
-    try:
-        return order_service.create_order(db=db, username=str(current_user.username))
-    except Exception as e:
-        print(e)
+    return order_service.create_order(db=db, username=str(current_user.username))
+
 
 @order_router.post('/confirm', response_model=OrderOut)
 async def confirm_order(data: OrderConfirm, db: Session = Depends(get_db), current_user: User = Depends(get_current_user), _: None = Depends(rate_limit)):

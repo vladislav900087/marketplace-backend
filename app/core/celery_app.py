@@ -1,7 +1,9 @@
 import os
 from celery import Celery
 
-redis_url = os.getenv('EXTERNAL_REDIS_URL', 'redis://localhost:6379')
+redis_url = os.getenv('REDIS_URL')
+if not redis_url:
+    raise RuntimeError('REDIS_URL is not configured')
 celery_app = Celery('marketplace', broker=redis_url, backend=redis_url)
 
 # ssl parameters enabled
