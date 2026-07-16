@@ -19,7 +19,7 @@ class ProfileService:
 
         if new_username:
             current_user.username = new_username
-        elif new_email:
+        if new_email:
             current_user.email = new_email
 
         db.commit()
