@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = os.getenv("DATABASE_URL", 'postgresql://market_records_user:XC3AV6iwjymEBJ4K61qPboOIjuuDiheu@dpg-d9ai24ok1i2s73c5jck0-a/market_records')
 
 engine = create_engine(DATABASE_URL)
 
