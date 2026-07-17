@@ -129,6 +129,7 @@ class CategoryService:
         db.commit()
 
         redis_client.delete(f'category: {category_id}')
+        redis_client.delete(f'categories: {owner_username}')
 
         return {'category_id': category_id, 'status': 'deleted'}
 
