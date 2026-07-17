@@ -19,6 +19,6 @@ services:
     depends_on:
       - redis
     env_file:
-      - .env
+      - .env.celery.local
 
     restart: always
